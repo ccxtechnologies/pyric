@@ -39,7 +39,7 @@ __maintainer__ = "Dale Patterson"
 __email__ = "wraith.wireless@yandex.com"
 __status__ = "Production"
 
-from time import time
+import random
 from os import getpid, strerror
 import struct
 import socket
@@ -191,10 +191,10 @@ def nl_socket_alloc(
       the min. size is 128
     """
     # set & validate paramaters
-    pid = pid or getpid() + int(time())  # allow multiple sockets on this host
+    pid = pid or getpid() + random.randint(0, 10000)  # allow multiple sockets on this host
     if pid < 1:
         raise EnvironmentError(errno.EINVAL, "Invalid port id")
-    seq = seq or int(time())
+    seq = seq or random.randint(0, 10000)
     if seq < 1:
         raise EnvironmentError(errno.EINVAL, "Invalid sequence number")
     rx = rx or BUFSZ
@@ -483,8 +483,8 @@ def nlmsg_new(nltype=None, cmd=None, seq=None, pid=None, flags=None, attrs=None)
         {
             "type": nltype or nlh.NETLINK_GENERIC,
             "flags": flags or (nlh.NLM_F_REQUEST | nlh.NLM_F_ACK),
-            "seq": seq or int(time()),
-            "pid": pid or getpid(),
+            "seq": seq or random.randint(0, 10000),
+            "pid": pid or getpid() + random.randint(0, 10000),
             "cmd": cmd or genlh.CTRL_CMD_UNSPEC,
             "attrs": attrs or [],
         }
