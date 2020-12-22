@@ -1385,9 +1385,7 @@ def txset(card: Card, setting, lvl: str, nlsock: Optional[NLSocket] = None) -> b
             cmd=NL80211_CMD_SET_WIPHY,
             flags=NLM_F_REQUEST | NLM_F_ACK,
         )
-        # neither sending the phy or ifindex works
-        # nla_put_u32(msg, card.phy, NL80211_ATTR_WIPHY)
-        nla_put_u32(msg, card.idx, NL80211_ATTR_IFINDEX)
+        nla_put_u32(msg, card.phy, NL80211_ATTR_WIPHY)
         nla_put_u32(msg, setting, NL80211_ATTR_WIPHY_TX_POWER_SETTING)
         if setting != NL80211_TX_POWER_AUTOMATIC:
             nla_put_u32(msg, 100 * lvl, NL80211_ATTR_WIPHY_TX_POWER_LEVEL)
